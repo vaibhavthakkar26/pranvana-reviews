@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRANVANA | Artisan Incense Reviews & Gallery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-amber: #D97706;
+            --color-amber-light: #FBBF24;
+            --color-bg: #0F0F0B;
+            --color-surface: #1A1A14;
+            --color-text: #E5E5E0;
+            --color-text-muted: #A1A19A;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Jost', sans-serif;
+            --cursor-size: 8px;
+            --cursor-ring-size: 32px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .serif {
+            font-family: var(--font-serif);
+            font-weight: 400;
+        }
+
+        /* --- Custom Cursor --- */
+        #cursor-dot {
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            background: var(--color-amber);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease-out;
+        }
+
+        #cursor-ring {
+            width: var(--cursor-ring-size);
+            height: var(--cursor-ring-size);
+            border: 1px solid rgba(217, 119, 6, 0.4);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at center, rgba(26, 26, 20, 0.5) 0%, var(--color-bg) 100%);
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 1rem;
+            color: var(--color-amber);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--color-text-muted);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        /* --- Floating Particles --- */
+        #particles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--color-amber);
+            border-radius: 50%;
+            opacity: 0.4;
+            filter: blur(1px);
+            animation: driftUp var(--duration, 10s) linear infinite;
+        }
+
+        @keyframes driftUp {
+            0% { transform: translateY(110vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) translateX(var(--drift, 50px)); opacity: 0; }
+        }
+
+        /* --- Parallax Rings --- */
+        .parallax-ring {
+            position: absolute;
+            border: 1px solid rgba(217, 119, 6, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* --- Smoke SVG --- */
+        .smoke-container {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 400px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .smoke-svg {
+            width: 100%;
+            height: 100%;
+            filter: blur(10px);
+            opacity: 0.3;
+        }
+
+        /* --- Live Pulse --- */
+        .live-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(26, 26, 20, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .pulse-dot::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #10B981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        /* --- Reviews Section --- */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--color-amber);
+        }
+
+        /* --- Review Grid --- */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .review-card {
+            background: var(--color-surface);
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .review-card:hover {
+            border-color: rgba(217, 119, 6, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .review-card.new {
+            animation: highlightAmber 3s forwards;
+        }
+
+        @keyframes highlightAmber {
+            0% { background: rgba(217, 119, 6, 0.2); border-color: var(--color-amber); }
+            100% { background: var(--color-surface); border-color: rgba(255, 255, 255, 0.05); }
+        }
+
+        .review-card .name {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-amber);
+        }
+
+        .review-card .rating {
+            color: var(--color-amber-light);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .review-card .reflection {
+            color: var(--color-text);
+            font-style: italic;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .review-card .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* --- Skeleton Loaders --- */
+        .skeleton {
+            background: linear-gradient(90deg, var(--color-surface) 25%, #23231d 50%, var(--color-surface) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* --- Form Section --- */
+        .form-container {
+            max-width: 600px;
+            margin: 100px auto 0;
+            background: var(--color-surface);
+            padding: 60px;
+            border: 1px solid rgba(217, 119, 6, 0.2);
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--color-amber);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--color-text-muted);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--color-text);
+            padding: 12px 16px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--color-amber);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 10px;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .rating-stars span {
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .rating-stars span:hover,
+        .rating-stars span.active,
+        .rating-stars span.hover {
+            color: var(--color-amber);
+            transform: scale(1.2);
+            text-shadow: 0 0 15px rgba(217, 119, 6, 0.4);
+        }
+
+        .rating-stars span.active {
+            color: var(--color-amber-light);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--color-amber);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: var(--color-amber-light);
+            transform: translateY(-2px);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            padding: 16px 32px;
+            background: #10B981;
+            color: white;
+            border-radius: 4px;
+            transform: translateY(200%);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 10000;
+        }
+
+        .toast.error { background: #EF4444; }
+        .toast.show { transform: translateY(0); }
+
+        /* --- Glassmorphism Nav --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 30px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(15, 15, 11, 0.8), transparent);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--color-amber);
+            text-decoration: none;
+            letter-spacing: 0.2em;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 20px; }
+            .section { padding: 60px 20px; }
+            .form-container { padding: 30px; }
+            * { cursor: auto !important; }
+            #cursor-dot, #cursor-ring { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <nav>
+        <a href="#" class="logo">PRANVANA</a>
+        <div style="font-size: 0.75rem; letter-spacing: 0.2em; color: var(--color-text-muted);">COLLECTION · REVIEWS · GALLERY</div>
+    </nav>
+
+    <section class="hero">
+        <div id="particles-container"></div>
+        <div class="parallax-ring" style="width: 400px; height: 400px; top: 10%; left: 5%;"></div>
+        <div class="parallax-ring" style="width: 600px; height: 600px; bottom: 5%; right: 5%;"></div>
+        
+        <div class="smoke-container">
+            <svg class="smoke-svg" viewBox="0 0 200 400" preserveAspectRatio="none">
+                <path id="smoke-path" fill="white" d="M100,400 Q80,300 120,200 T100,0 L110,0 T130,200 Q90,300 110,400 Z" />
+            </svg>
+        </div>
+
+        <div class="hero-content">
+            <h1 data-parallax="0.2">Reflections</h1>
+            <p data-parallax="0.1">Real-time stories from our community</p>
+            <div class="live-status" data-parallax="0.05">
+                <div class="pulse-dot"></div>
+                <span><span id="live-count">...</span> reflections shared live</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-header">
+            <h2>The Gallery</h2>
+            <p style="text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.8rem; color: var(--color-amber);">Curated Experiences</p>
+        </div>
+
+        <div class="reviews-grid" id="reviews-container">
+            <!-- Skeletons -->
+            <div class="review-card skeleton" style="height: 300px;"></div>
+            <div class="review-card skeleton" style="height: 300px;"></div>
+            <div class="review-card skeleton" style="height: 300px;"></div>
+        </div>
+
+        <div class="form-container">
+            <h3 class="form-title">Share Your Reflection</h3>
+            <form id="review-form">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Aria Thorne">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="aria@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Essential Rating</label>
+                    <div class="rating-stars" id="star-rating">
+                        <span data-value="1">★</span>
+                        <span data-value="2">★</span>
+                        <span data-value="3">★</span>
+                        <span data-value="4">★</span>
+                        <span data-value="5">★</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Reflection</label>
+                    <textarea id="reflection" name="reflection" rows="5" required placeholder="How did the scent unfold in your space?"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submit-btn">Cast Reflection</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="toast" class="toast">Reflection shared successfully.</div>
+
+    <script>
+        // --- Setup Particles ---
+        const particlesContainer = document.getElementById('particles-container');
+        for (let i = 0; i < 50; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 4 + 2;
+            p.style.width = `${size}px`;
+            p.style.height = `${size}px`;
+            p.style.left = `${Math.random() * 100}%`;
+            p.style.setProperty('--duration', `${Math.random() * 10 + 5}s`);
+            p.style.setProperty('--drift', `${Math.random() * 100 - 50}px`);
+            p.style.animationDelay = `${Math.random() * 10}s`;
+            particlesContainer.appendChild(p);
+        }
+
+        // --- Custom Cursor ---
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            // Cursor movement
+            dot.style.transform = `translate(${x - 4}px, ${y - 4}px)`;
+            ring.style.transform = `translate(${x - 16}px, ${y - 16}px)`;
+
+            // Parallax Rings in Hero
+            const rings = document.querySelectorAll('.parallax-ring');
+            rings.forEach((r, idx) => {
+                const speed = (idx + 1) * 20;
+                const rx = (window.innerWidth / 2 - x) / speed;
+                const ry = (window.innerHeight / 2 - y) / speed;
+                r.style.transform = `translate(${rx}px, ${ry}px)`;
+            });
+        });
+
+        // --- Scroll Parallax & Fade ---
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxEls = document.querySelectorAll('[data-parallax]');
+            
+            parallaxEls.forEach(el => {
+                const speed = el.getAttribute('data-parallax');
+                const yPos = -(scrolled * speed);
+                const opacity = 1 - (scrolled / 500);
+                el.style.transform = `translateY(${yPos}px)`;
+                el.style.opacity = opacity;
+            });
+        });
+
+        // --- Smoke Animation ---
+        const smokePath = document.getElementById('smoke-path');
+        let time = 0;
+        function animateSmoke() {
+            time += 0.02;
+            const xOffset = Math.sin(time) * 15;
+            const xOffset2 = Math.cos(time * 0.7) * 20;
+            const d = `M100,400 Q${80 + xOffset},300 ${120 + xOffset2},200 T100,0 L110,0 T${130 + xOffset2},200 Q${90 + xOffset},300 110,400 Z`;
+            smokePath.setAttribute('d', d);
+            requestAnimationFrame(animateSmoke);
+        }
+        animateSmoke();
+
+        // --- Time Formatter ---
+        function formatRelativeTime(date) {
+            const now = new Date();
+            const then = new Date(date);
+            const diff = Math.floor((now - then) / 1000);
+            
+            if (diff < 60) return 'just now';
+            if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+            if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+            return `${Math.floor(diff / 86400)}d ago`;
+        }
+
+        // --- Fetch & Render Reviews ---
+        const container = document.getElementById('reviews-container');
+        const liveCount = document.getElementById('live-count');
+
+        async function fetchReviews() {
+            try {
+                const res = await fetch('/api/reviews');
+                const data = await res.json();
+                
+                if (data.reviews) {
+                    renderReviews(data.reviews);
+                    liveCount.innerText = data.totalCount;
+                }
+            } catch (err) {
+                console.error('Fetch error:', err);
+                container.innerHTML = `<p style="color: #EF4444; text-align: center; grid-column: 1/-1;">Lost connection to the archives. Please refresh.</p>`;
+            }
+        }
+
+        function renderReviews(reviews) {
+            container.innerHTML = '';
+            reviews.forEach(review => {
+                container.appendChild(createReviewCard(review));
+            });
+        }
+
+        function createReviewCard(review, isNew = false) {
+            const card = document.createElement('div');
+            card.className = `review-card ${isNew ? 'new' : ''}`;
+            
+            const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+            
+            card.innerHTML = `
+                <div class="name">${review.name}</div>
+                <div class="rating">${stars}</div>
+                <div class="reflection">"${review.reflection}"</div>
+                <div class="footer">
+                    <span>Verified Seeker</span>
+                    <span>${formatRelativeTime(review.created_at)}</span>
+                </div>
+            `;
+            return card;
+        }
+
+        // --- Interactive Rating Stars ---
+        const stars = document.querySelectorAll('.rating-stars span');
+        let selectedRating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', () => {
+                const val = star.getAttribute('data-value');
+                updateStars(val, 'hover');
+            });
+
+            star.addEventListener('mouseout', () => {
+                updateStars(selectedRating, 'active');
+            });
+
+            star.addEventListener('click', () => {
+                selectedRating = star.getAttribute('data-value');
+                updateStars(selectedRating, 'active');
+            });
+        });
+
+        function updateStars(val, className) {
+            stars.forEach(s => {
+                s.classList.remove('active', 'hover');
+                if (s.getAttribute('data-value') <= val) {
+                    s.classList.add(className);
+                }
+            });
+        }
+
+        // --- Form Handling ---
+        const form = document.getElementById('review-form');
+        const toast = document.getElementById('toast');
+
+        function showToast(msg, isError = false) {
+            toast.innerText = msg;
+            toast.classList.toggle('error', isError);
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (selectedRating === 0) {
+                showToast('Please select a rating to cast your reflection.', true);
+                return;
+            }
+
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true;
+            btn.innerText = 'Casting...';
+
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                rating: parseInt(selectedRating),
+                reflection: document.getElementById('reflection').value
+            };
+
+            try {
+                const res = await fetch('/api/reviews', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!res.ok) throw new Error('Failed to cast reflection');
+
+                const newReview = await res.json();
+                
+                // Prepend new card
+                const newCard = createReviewCard(newReview, true);
+                container.prepend(newCard);
+                
+                // Update count
+                liveCount.innerText = parseInt(liveCount.innerText) + 1;
+                
+                // Reset form
+                form.reset();
+                showToast('Reflection cast into the gallery.');
+                
+                // Scroll to new review
+                newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            } catch (err) {
+                showToast('The winds were unfavourable. Try again.', true);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Cast Reflection';
+            }
+        });
+
+        // Initialize
+        fetchReviews();
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "pranvana-reviews",
+  "version": "1.0.0",
+  "description": "Pranvana Artisan Incense Reviews & Gallery",
+  "main": "api/reviews.js",
+  "scripts": {
+    "local": "npx vercel dev"
+  },
+  "dependencies": {
+    "pg": "^8.11.3"
+  }
+}
