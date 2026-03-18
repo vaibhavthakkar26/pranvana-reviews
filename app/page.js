@@ -3,17 +3,17 @@
 import { useState, useEffect, useRef } from 'react';
 
 export default function Home() {
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviews, setReviews] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [rating, setRating] = useState(5);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [reflection, setReflection] = useState('');
-  const [photo, setPhoto] = useState<string | null>(null);
+  const [photo, setPhoto] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [toast, setToast] = useState({ show: false, msg: '', isError: false });
 
-  const photoInputRef = useRef<HTMLInputElement>(null);
+  const photoInputRef = useRef(null);
 
   useEffect(() => {
     fetchReviews();
@@ -32,17 +32,17 @@ export default function Home() {
     }
   };
 
-  const showToast = (msg: string, isError = false) => {
+  const showToast = (msg, isError = false) => {
     setToast({ show: true, msg, isError });
     setTimeout(() => setToast({ show: false, msg: '', isError: false }), 3000);
   };
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (event) => {
-      setPhoto(event.target?.result as string);
+      setPhoto(event.target.result);
     };
     reader.readAsDataURL(file);
   };
@@ -76,7 +76,7 @@ export default function Home() {
       if (!res.ok) throw new Error('Submission failed');
 
       const newReview = await res.json();
-      setReviews(prev => [newReview, ...prev]);
+      setReviews([newReview, ...reviews]);
       setTotalCount(prev => prev + 1);
 
       // Reset form
@@ -88,8 +88,7 @@ export default function Home() {
       if (photoInputRef.current) photoInputRef.current.value = '';
 
       showToast('Reflection submitted — thank you ✦');
-      const gallery = document.getElementById('gallery');
-      if (gallery) gallery.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
 
     } catch (err) {
       console.error('Submit error:', err);
@@ -531,7 +530,7 @@ export default function Home() {
 
           <div className="field">
             <label>Ritual Photo (optional)</label>
-            <div className="upload-box" onClick={() => photoInputRef.current?.click()}>
+            <div className="upload-box" onClick={() => photoInputRef.current.click()}>
               <div className="ico">📷</div>
               <p>Click to upload photo</p>
             </div>

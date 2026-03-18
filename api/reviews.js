@@ -17,6 +17,7 @@ const initDb = async () => {
         email TEXT NOT NULL,
         reflection TEXT NOT NULL,
         rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+        photo TEXT,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
     `);
@@ -49,7 +50,7 @@ module.exports = async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    const { name, email, reflection, rating } = req.body;
+    const { name, email, reflection, rating, photo } = req.body;
 
     // Validation
     if (!name || !email || !reflection || !rating) {
@@ -61,8 +62,8 @@ module.exports = async function handler(req, res) {
     }
 
     try {
-      const query = 'INSERT INTO reviews (name, email, reflection, rating) VALUES ($1, $2, $3, $4) RETURNING *';
-      const values = [name, email, reflection, rating];
+      const query = 'INSERT INTO reviews (name, email, reflection, rating, photo) VALUES ($1, $2, $3, $4, $5) RETURNING *';
+      const values = [name, email, reflection, rating, photo || null];
       const { rows } = await pool.query(query, values);
       return res.status(201).json(rows[0]);
     } catch (err) {

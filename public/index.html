@@ -1,713 +1,627 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRANVANA | Artisan Incense Reviews & Gallery</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --color-amber: #D97706;
-            --color-amber-light: #FBBF24;
-            --color-bg: #0F0F0B;
-            --color-surface: #1A1A14;
-            --color-text: #E5E5E0;
-            --color-text-muted: #A1A19A;
-            --font-serif: 'Cormorant Garamond', serif;
-            --font-sans: 'Jost', sans-serif;
-            --cursor-size: 8px;
-            --cursor-ring-size: 32px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRANVANA — Reflections</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none;
-        }
+  :root {
+    --bg:        #faf8f4;
+    --bg2:       #f4f0ea;
+    --surface:   #ffffff;
+    --card:      #ffffff;
+    --border:    #e8e0d4;
+    --amber:     #b07d3a;
+    --amber-lt:  #c9975a;
+    --sand:      #6e5a42;
+    --muted:     #a0917f;
+    --text:      #3a2e22;
+    --soft:      #7a6a56;
+  }
 
-        body {
-            background-color: var(--color-bg);
-            color: var(--color-text);
-            font-family: var(--font-sans);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
+  html { scroll-behavior: smooth; }
 
-        h1, h2, h3, .serif {
-            font-family: var(--font-serif);
-            font-weight: 400;
-        }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
 
-        /* --- Custom Cursor --- */
-        #cursor-dot {
-            width: var(--cursor-size);
-            height: var(--cursor-size);
-            background: var(--color-amber);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease-out;
-        }
+  /* ── NAV ─────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.4rem 3rem;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(250,248,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    color: var(--amber);
+    text-transform: uppercase;
+  }
 
-        #cursor-ring {
-            width: var(--cursor-ring-size);
-            height: var(--cursor-ring-size);
-            border: 1px solid rgba(217, 119, 6, 0.4);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-        }
+  /* ── HERO ────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 7rem 2rem 5rem;
+    position: relative;
+    background: linear-gradient(170deg, #fdf9f3 0%, #f5ede0 60%, #ede0cc 100%);
+    overflow: hidden;
+  }
+  /* Decorative rings */
+  .hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(176,125,58,0.12);
+    pointer-events: none;
+  }
+  .hero::before { width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  .hero::after  { width: 900px; height: 900px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
 
-        /* --- Hero Section --- */
-        .hero {
-            height: 100vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: radial-gradient(circle at center, rgba(26, 26, 20, 0.5) 0%, var(--color-bg) 100%);
-        }
+  .hero-eyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.2s forwards;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 10vw, 7.5rem);
+    font-weight: 300;
+    line-height: 1;
+    color: var(--text);
+    letter-spacing: 0.06em;
+    opacity: 0;
+    animation: fadeUp 1.1s ease 0.35s forwards;
+  }
+  .hero h1 em { font-style: italic; color: var(--amber-lt); }
+  .hero-sub {
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.6s forwards;
+  }
+  .scroll-hint {
+    position: absolute; bottom: 2.5rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .scroll-hint span { font-size: 0.5rem; letter-spacing: 0.35em; color: var(--muted); text-transform: uppercase; }
+  .scroll-hint i {
+    display: block; width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--amber), transparent);
+    animation: pulse 2s ease-in-out infinite;
+  }
 
-        .hero-content {
-            text-align: center;
-            z-index: 10;
-            max-width: 800px;
-            padding: 0 20px;
-        }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 0.25; transform: scaleY(0.6); }
+    50%      { opacity: 1;    transform: scaleY(1); }
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
 
-        .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
-            margin-bottom: 1rem;
-            color: var(--color-amber);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
+  /* ── SECTION COMMONS ─────────────────────── */
+  section { padding: 6rem 1.5rem; }
 
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--color-text-muted);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-        }
+  .sec-label {
+    text-align: center;
+    font-size: 0.58rem; letter-spacing: 0.5em;
+    text-transform: uppercase; color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+  .sec-title {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 300; color: var(--text);
+  }
+  .divider {
+    width: 36px; height: 1px;
+    background: var(--amber); opacity: 0.5;
+    margin: 1.4rem auto 3rem;
+  }
 
-        /* --- Floating Particles --- */
-        #particles-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
+  /* ── BADGE ───────────────────────────────── */
+  .badge {
+    display: flex; align-items: center; justify-content: center; gap: 0.7rem;
+    width: fit-content; margin: 0 auto 3.5rem;
+    padding: 0.55rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--surface);
+    box-shadow: 0 2px 12px rgba(176,125,58,0.08);
+  }
+  .badge .b-stars { color: var(--amber); font-size: 0.75rem; letter-spacing: 2px; }
+  .badge .b-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem; color: var(--amber);
+  }
+  .badge .b-txt {
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+  }
 
-        .particle {
-            position: absolute;
-            background: var(--color-amber);
-            border-radius: 50%;
-            opacity: 0.4;
-            filter: blur(1px);
-            animation: driftUp var(--duration, 10s) linear infinite;
-        }
+  /* ── GRID ────────────────────────────────── */
+  .grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2.2rem 1.8rem;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+    transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
+    animation: pop 0.5s ease both;
+  }
+  .card:hover {
+    box-shadow: 0 8px 32px rgba(176,125,58,0.12);
+    transform: translateY(-3px);
+    border-color: rgba(176,125,58,0.3);
+  }
+  .card-stars { color: var(--amber); font-size: 0.85rem; letter-spacing: 3px; margin-bottom: 1rem; }
+  .card-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.06rem; font-style: italic;
+    color: var(--sand); line-height: 1.85;
+    margin-bottom: 1.4rem;
+  }
+  .card-author {
+    font-size: 0.62rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--amber);
+  }
+  .card-email {
+    display: block; margin-top: 0.3rem;
+    font-size: 0.6rem; color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .card-photo { margin-bottom: 1.1rem; border-radius: 4px; overflow: hidden; }
+  .card-photo img { width: 100%; height: 175px; object-fit: cover; }
 
-        @keyframes driftUp {
-            0% { transform: translateY(110vh) translateX(0); opacity: 0; }
-            10% { opacity: 0.4; }
-            90% { opacity: 0.4; }
-            100% { transform: translateY(-10vh) translateX(var(--drift, 50px)); opacity: 0; }
-        }
+  /* ── FORM ────────────────────────────────── */
+  .form-wrap {
+    max-width: 580px; margin: 1.5rem auto 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.05);
+  }
+  .form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.75rem; font-weight: 300;
+    color: var(--text); text-align: center; margin-bottom: 0.4rem;
+  }
+  .form-sub {
+    text-align: center; font-size: 0.62rem;
+    letter-spacing: 0.3em; color: var(--muted);
+    text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .form-count {
+    text-align: center; font-size: 0.65rem;
+    letter-spacing: 0.3em; color: var(--muted);
+    text-transform: uppercase; margin-bottom: 2.5rem;
+  }
+  .form-count strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem; color: var(--amber); font-weight: 300;
+  }
+  .field { margin-bottom: 1.4rem; }
+  .field label {
+    display: block; font-size: 0.58rem;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 0.5rem;
+  }
+  .field input,
+  .field textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem; font-weight: 300;
+    padding: 0.85rem 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--amber);
+    box-shadow: 0 0 0 3px rgba(176,125,58,0.1);
+  }
+  .field textarea { resize: vertical; min-height: 95px; }
 
-        /* --- Parallax Rings --- */
-        .parallax-ring {
-            position: absolute;
-            border: 1px solid rgba(217, 119, 6, 0.1);
-            border-radius: 50%;
-            pointer-events: none;
-        }
+  /* Star picker */
+  .star-row { display: flex; gap: 6px; }
+  .star-row span {
+    cursor: pointer; font-size: 1.55rem;
+    color: #ddd; transition: color 0.12s, transform 0.12s;
+  }
+  .star-row span.lit { color: var(--amber); transform: scale(1.12); }
 
-        /* --- Smoke SVG --- */
-        .smoke-container {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 400px;
-            pointer-events: none;
-            z-index: 5;
-        }
+  /* Upload */
+  .upload-box {
+    border: 1.5px dashed var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    padding: 1.8rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .upload-box:hover { border-color: var(--amber); background: #fdf6ec; }
+  .upload-box .ico { font-size: 1.4rem; margin-bottom: 0.4rem; }
+  .upload-box p { font-size: 0.62rem; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+  #photoInput { display: none; }
+  #photoPreview {
+    width: 100%; max-height: 155px; object-fit: cover;
+    border-radius: 4px; border: 1px solid var(--border);
+    display: none; margin-top: 0.75rem;
+  }
 
-        .smoke-svg {
-            width: 100%;
-            height: 100%;
-            filter: blur(10px);
-            opacity: 0.3;
-        }
+  .btn {
+    width: 100%; padding: 0.95rem;
+    background: var(--amber); color: #fff;
+    border: none; border-radius: 5px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.62rem; letter-spacing: 0.4em;
+    text-transform: uppercase; cursor: pointer;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 16px rgba(176,125,58,0.25);
+  }
+  .btn:hover {
+    background: #9a6a28;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(176,125,58,0.35);
+  }
+  .btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
 
-        /* --- Live Pulse --- */
-        .live-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(26, 26, 20, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 2rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
+  /* ── ORIGIN ──────────────────────────────── */
+  .origin-bg {
+    background: linear-gradient(160deg, #f5ede0 0%, #ede0cc 100%);
+  }
+  .origin-inner {
+    max-width: 720px; margin: 0 auto; text-align: center;
+  }
+  .origin-inner h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.9rem, 4vw, 2.9rem);
+    font-weight: 300; color: var(--text);
+    line-height: 1.3; margin-bottom: 2rem;
+  }
+  .origin-inner p {
+    font-size: 0.9rem; line-height: 2.1;
+    color: var(--soft); margin-bottom: 1rem;
+  }
 
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background: #10B981;
-            border-radius: 50%;
-            position: relative;
-        }
+  /* ── TOAST ───────────────────────────────── */
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%;
+    transform: translateX(-50%) translateY(90px);
+    background: var(--amber); color: #fff;
+    font-size: 0.62rem; letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 0.75rem 2.2rem; border-radius: 100px;
+    box-shadow: 0 4px 20px rgba(176,125,58,0.35);
+    transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+    z-index: 999; white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { background: #d32f2f; }
 
-        .pulse-dot::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #10B981;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
+  /* ── FOOTER ──────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 3rem 2rem; text-align: center;
+  }
+  footer .logo { display: block; margin-bottom: 1rem; }
+  footer p {
+    font-size: 0.58rem; letter-spacing: 0.2em;
+    color: var(--muted); text-transform: uppercase; line-height: 2.2;
+  }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(3); opacity: 0; }
-        }
-
-        /* --- Reviews Section --- */
-        .section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 100px 20px;
-        }
-
-        .section-header {
-            margin-bottom: 60px;
-            text-align: center;
-        }
-
-        .section-header h2 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--color-amber);
-        }
-
-        /* --- Review Grid --- */
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
-        }
-
-        .review-card {
-            background: var(--color-surface);
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .review-card:hover {
-            border-color: rgba(217, 119, 6, 0.3);
-            transform: translateY(-5px);
-        }
-
-        .review-card.new {
-            animation: highlightAmber 3s forwards;
-        }
-
-        @keyframes highlightAmber {
-            0% { background: rgba(217, 119, 6, 0.2); border-color: var(--color-amber); }
-            100% { background: var(--color-surface); border-color: rgba(255, 255, 255, 0.05); }
-        }
-
-        .review-card .name {
-            font-family: var(--font-serif);
-            font-size: 1.75rem;
-            margin-bottom: 0.5rem;
-            color: var(--color-amber);
-        }
-
-        .review-card .rating {
-            color: var(--color-amber-light);
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-        }
-
-        .review-card .reflection {
-            color: var(--color-text);
-            font-style: italic;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        .review-card .footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.75rem;
-            color: var(--color-text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        /* --- Skeleton Loaders --- */
-        .skeleton {
-            background: linear-gradient(90deg, var(--color-surface) 25%, #23231d 50%, var(--color-surface) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        /* --- Form Section --- */
-        .form-container {
-            max-width: 600px;
-            margin: 100px auto 0;
-            background: var(--color-surface);
-            padding: 60px;
-            border: 1px solid rgba(217, 119, 6, 0.2);
-        }
-
-        .form-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: var(--color-amber);
-        }
-
-        .form-group {
-            margin-bottom: 2rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--color-text-muted);
-        }
-
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--color-text);
-            padding: 12px 16px;
-            font-family: inherit;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--color-amber);
-        }
-
-        .rating-stars {
-            display: flex;
-            gap: 10px;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .rating-stars span {
-            cursor: pointer;
-            color: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .rating-stars span:hover,
-        .rating-stars span.active,
-        .rating-stars span.hover {
-            color: var(--color-amber);
-            transform: scale(1.2);
-            text-shadow: 0 0 15px rgba(217, 119, 6, 0.4);
-        }
-
-        .rating-stars span.active {
-            color: var(--color-amber-light);
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--color-amber);
-            color: white;
-            border: none;
-            padding: 16px;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            font-weight: 600;
-            transition: all 0.3s;
-            margin-top: 1rem;
-        }
-
-        .submit-btn:hover {
-            background: var(--color-amber-light);
-            transform: translateY(-2px);
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            padding: 16px 32px;
-            background: #10B981;
-            color: white;
-            border-radius: 4px;
-            transform: translateY(200%);
-            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            z-index: 10000;
-        }
-
-        .toast.error { background: #EF4444; }
-        .toast.show { transform: translateY(0); }
-
-        /* --- Glassmorphism Nav --- */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 30px 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(to bottom, rgba(15, 15, 11, 0.8), transparent);
-            backdrop-filter: blur(10px);
-        }
-
-        .logo {
-            font-family: var(--font-serif);
-            font-size: 2rem;
-            color: var(--color-amber);
-            text-decoration: none;
-            letter-spacing: 0.2em;
-        }
-
-        @media (max-width: 768px) {
-            nav { padding: 20px; }
-            .section { padding: 60px 20px; }
-            .form-container { padding: 30px; }
-            * { cursor: auto !important; }
-            #cursor-dot, #cursor-ring { display: none; }
-        }
-    </style>
+  @media (max-width: 640px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .form-wrap { padding: 2rem 1.5rem; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
 
-    <div id="cursor-dot"></div>
-    <div id="cursor-ring"></div>
+<!-- NAV -->
+<nav><span class="logo">Pranvana</span></nav>
 
-    <nav>
-        <a href="#" class="logo">PRANVANA</a>
-        <div style="font-size: 0.75rem; letter-spacing: 0.2em; color: var(--color-text-muted);">COLLECTION · REVIEWS · GALLERY</div>
-    </nav>
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">Artisan Incense &middot; Kyoto Tradition</p>
+  <h1>Reflec<em>tions</em></h1>
+  <p class="hero-sub">Community Gallery</p>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <i></i>
+  </div>
+</div>
 
-    <section class="hero">
-        <div id="particles-container"></div>
-        <div class="parallax-ring" style="width: 400px; height: 400px; top: 10%; left: 5%;"></div>
-        <div class="parallax-ring" style="width: 600px; height: 600px; bottom: 5%; right: 5%;"></div>
-        
-        <div class="smoke-container">
-            <svg class="smoke-svg" viewBox="0 0 200 400" preserveAspectRatio="none">
-                <path id="smoke-path" fill="white" d="M100,400 Q80,300 120,200 T100,0 L110,0 T130,200 Q90,300 110,400 Z" />
-            </svg>
-        </div>
+<!-- REVIEWS -->
+<section id="gallery" style="background:var(--bg);">
+  <p class="sec-label">Community Gallery</p>
+  <h2 class="sec-title">Reflections</h2>
+  <div class="divider"></div>
 
-        <div class="hero-content">
-            <h1 data-parallax="0.2">Reflections</h1>
-            <p data-parallax="0.1">Real-time stories from our community</p>
-            <div class="live-status" data-parallax="0.05">
-                <div class="pulse-dot"></div>
-                <span><span id="live-count">...</span> reflections shared live</span>
-            </div>
-        </div>
-    </section>
+  <div class="badge">
+    <span class="b-stars">★★★★★</span>
+    <span class="b-num" id="totalCount">...</span>
+    <span class="b-txt">Stories Shared</span>
+  </div>
 
-    <section class="section">
-        <div class="section-header">
-            <h2>The Gallery</h2>
-            <p style="text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.8rem; color: var(--color-amber);">Curated Experiences</p>
-        </div>
+  <div class="grid" id="reviewGrid">
+    <!-- Reviews will be loaded here dynamically -->
+  </div>
+</section>
 
-        <div class="reviews-grid" id="reviews-container">
-            <!-- Skeletons -->
-            <div class="review-card skeleton" style="height: 300px;"></div>
-            <div class="review-card skeleton" style="height: 300px;"></div>
-            <div class="review-card skeleton" style="height: 300px;"></div>
-        </div>
+<!-- SUBMIT FORM -->
+<section style="padding-top:2rem; background:var(--bg2);">
+  <div class="form-wrap">
+    <h3 class="form-title">The Ritual of Review</h3>
+    <p class="form-sub">Share your moment of pause</p>
+    <p class="form-count"><strong id="formCount">...</strong>&nbsp; Stories Shared</p>
 
-        <div class="form-container">
-            <h3 class="form-title">Share Your Reflection</h3>
-            <form id="review-form">
-                <div class="form-group">
-                    <label>Your Name</label>
-                    <input type="text" id="name" name="name" required placeholder="Aria Thorne">
-                </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="email" name="email" required placeholder="aria@example.com">
-                </div>
-                <div class="form-group">
-                    <label>Essential Rating</label>
-                    <div class="rating-stars" id="star-rating">
-                        <span data-value="1">★</span>
-                        <span data-value="2">★</span>
-                        <span data-value="3">★</span>
-                        <span data-value="4">★</span>
-                        <span data-value="5">★</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Reflection</label>
-                    <textarea id="reflection" name="reflection" rows="5" required placeholder="How did the scent unfold in your space?"></textarea>
-                </div>
-                <button type="submit" class="submit-btn" id="submit-btn">Cast Reflection</button>
-            </form>
-        </div>
-    </section>
+    <div class="field">
+      <label>Your Name</label>
+      <input type="text" id="nameInput" placeholder="Full name">
+    </div>
 
-    <div id="toast" class="toast">Reflection shared successfully.</div>
+    <div class="field">
+      <label>Email Address</label>
+      <input type="email" id="emailInput" placeholder="your@email.com">
+    </div>
 
-    <script>
-        // --- Setup Particles ---
-        const particlesContainer = document.getElementById('particles-container');
-        for (let i = 0; i < 50; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            const size = Math.random() * 4 + 2;
-            p.style.width = `${size}px`;
-            p.style.height = `${size}px`;
-            p.style.left = `${Math.random() * 100}%`;
-            p.style.setProperty('--duration', `${Math.random() * 10 + 5}s`);
-            p.style.setProperty('--drift', `${Math.random() * 100 - 50}px`);
-            p.style.animationDelay = `${Math.random() * 10}s`;
-            particlesContainer.appendChild(p);
-        }
+    <div class="field">
+      <label>Your Reflection</label>
+      <textarea id="reflectionInput" placeholder="Describe your experience with PRANVANA..."></textarea>
+    </div>
 
-        // --- Custom Cursor ---
-        const dot = document.getElementById('cursor-dot');
-        const ring = document.getElementById('cursor-ring');
-        
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-            
-            // Cursor movement
-            dot.style.transform = `translate(${x - 4}px, ${y - 4}px)`;
-            ring.style.transform = `translate(${x - 16}px, ${y - 16}px)`;
+    <div class="field">
+      <label>Rating</label>
+      <div class="star-row" id="starRow">
+        <span data-v="1">★</span>
+        <span data-v="2">★</span>
+        <span data-v="3">★</span>
+        <span data-v="4">★</span>
+        <span data-v="5">★</span>
+      </div>
+    </div>
 
-            // Parallax Rings in Hero
-            const rings = document.querySelectorAll('.parallax-ring');
-            rings.forEach((r, idx) => {
-                const speed = (idx + 1) * 20;
-                const rx = (window.innerWidth / 2 - x) / speed;
-                const ry = (window.innerHeight / 2 - y) / speed;
-                r.style.transform = `translate(${rx}px, ${ry}px)`;
-            });
-        });
+    <div class="field">
+      <label>Ritual Photo (optional)</label>
+      <div class="upload-box" onclick="document.getElementById('photoInput').click()">
+        <div class="ico">📷</div>
+        <p>Click to upload photo</p>
+      </div>
+      <input type="file" id="photoInput" accept="image/*">
+      <img id="photoPreview" alt="Preview">
+    </div>
 
-        // --- Scroll Parallax & Fade ---
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallaxEls = document.querySelectorAll('[data-parallax]');
-            
-            parallaxEls.forEach(el => {
-                const speed = el.getAttribute('data-parallax');
-                const yPos = -(scrolled * speed);
-                const opacity = 1 - (scrolled / 500);
-                el.style.transform = `translateY(${yPos}px)`;
-                el.style.opacity = opacity;
-            });
-        });
+    <button class="btn" id="submitBtn" onclick="submitReview()">Submit Reflection</button>
+  </div>
+</section>
 
-        // --- Smoke Animation ---
-        const smokePath = document.getElementById('smoke-path');
-        let time = 0;
-        function animateSmoke() {
-            time += 0.02;
-            const xOffset = Math.sin(time) * 15;
-            const xOffset2 = Math.cos(time * 0.7) * 20;
-            const d = `M100,400 Q${80 + xOffset},300 ${120 + xOffset2},200 T100,0 L110,0 T${130 + xOffset2},200 Q${90 + xOffset},300 110,400 Z`;
-            smokePath.setAttribute('d', d);
-            requestAnimationFrame(animateSmoke);
-        }
-        animateSmoke();
+<!-- ORIGIN -->
+<section class="origin-bg">
+  <div class="origin-inner">
+    <p class="sec-label">Our Origin</p>
+    <h2>Silence, Crafted<br>by Hand.</h2>
+    <div class="divider"></div>
+    <p>In the narrow stone alleys of Kyoto, time moves differently. It was here, watching a third-generation master grind sandalwood into fine dust, that PRANVANA was conceived.</p>
+    <p>We reject the industrial acceleration of modern fragrance. Our incense is not dipped in synthetic perfume; it is kneaded from raw woods, spices, and resins. Each stick is dried in the mountain air for weeks before it reaches your home.</p>
+    <p>This is not just a scent. It is a lineage of patience.</p>
+  </div>
+</section>
 
-        // --- Time Formatter ---
-        function formatRelativeTime(date) {
-            const now = new Date();
-            const then = new Date(date);
-            const diff = Math.floor((now - then) / 1000);
-            
-            if (diff < 60) return 'just now';
-            if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-            if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-            return `${Math.floor(diff / 86400)}d ago`;
-        }
+<!-- FOOTER -->
+<footer>
+  <span class="logo">Pranvana</span>
+  <p>Crafting silence in a noisy world.</p>
+  <p>Incense for the modern ritual.</p>
+  <br>
+  <p>&copy; 2026 PRANVANA &middot; Designed with intention</p>
+</footer>
 
-        // --- Fetch & Render Reviews ---
-        const container = document.getElementById('reviews-container');
-        const liveCount = document.getElementById('live-count');
+<div class="toast" id="toast">Reflection submitted — thank you ✦</div>
 
-        async function fetchReviews() {
-            try {
-                const res = await fetch('/api/reviews');
-                const data = await res.json();
-                
-                if (data.reviews) {
-                    renderReviews(data.reviews);
-                    liveCount.innerText = data.totalCount;
-                }
-            } catch (err) {
-                console.error('Fetch error:', err);
-                container.innerHTML = `<p style="color: #EF4444; text-align: center; grid-column: 1/-1;">Lost connection to the archives. Please refresh.</p>`;
-            }
-        }
+<script>
+  /* ── Star rating ─────────────────────────── */
+  let rating = 5;
+  const starEls = document.querySelectorAll('#starRow span');
 
-        function renderReviews(reviews) {
-            container.innerHTML = '';
-            reviews.forEach(review => {
-                container.appendChild(createReviewCard(review));
-            });
-        }
+  function paintStars(n) {
+    starEls.forEach(s => s.classList.toggle('lit', +s.dataset.v <= n));
+  }
+  paintStars(5);
 
-        function createReviewCard(review, isNew = false) {
-            const card = document.createElement('div');
-            card.className = `review-card ${isNew ? 'new' : ''}`;
-            
-            const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-            
-            card.innerHTML = `
-                <div class="name">${review.name}</div>
-                <div class="rating">${stars}</div>
-                <div class="reflection">"${review.reflection}"</div>
-                <div class="footer">
-                    <span>Verified Seeker</span>
-                    <span>${formatRelativeTime(review.created_at)}</span>
-                </div>
-            `;
-            return card;
-        }
+  starEls.forEach(s => {
+    s.addEventListener('mouseover', () => paintStars(+s.dataset.v));
+    s.addEventListener('mouseout',  () => paintStars(rating));
+    s.addEventListener('click',     () => { rating = +s.dataset.v; paintStars(rating); });
+  });
 
-        // --- Interactive Rating Stars ---
-        const stars = document.querySelectorAll('.rating-stars span');
-        let selectedRating = 0;
+  /* ── Photo preview ───────────────────────── */
+  document.getElementById('photoInput').addEventListener('change', function () {
+    if (!this.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.getElementById('photoPreview');
+      img.src = e.target.result;
+      img.style.display = 'block';
+    };
+    reader.readAsDataURL(this.files[0]);
+  });
 
-        stars.forEach(star => {
-            star.addEventListener('mouseover', () => {
-                const val = star.getAttribute('data-value');
-                updateStars(val, 'hover');
-            });
+  /* ── Fetch Reviews ───────────────────────── */
+  async function fetchReviews() {
+    try {
+      const res = await fetch('/api/reviews');
+      const data = await res.json();
+      if (data.reviews) {
+        renderReviews(data.reviews);
+        updateCounts(data.totalCount);
+      }
+    } catch (err) {
+      console.error('Fetch error:', err);
+    }
+  }
 
-            star.addEventListener('mouseout', () => {
-                updateStars(selectedRating, 'active');
-            });
+  function renderReviews(reviews) {
+    const grid = document.getElementById('reviewGrid');
+    grid.innerHTML = '';
+    reviews.forEach((review, idx) => {
+      const card = createReviewCard(review, idx * 0.05);
+      grid.appendChild(card);
+    });
+  }
 
-            star.addEventListener('click', () => {
-                selectedRating = star.getAttribute('data-value');
-                updateStars(selectedRating, 'active');
-            });
-        });
+  function createReviewCard(review, delay = 0) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.animationDelay = `${delay}s`;
+    
+    const filled = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+    
+    card.innerHTML = `
+      ${review.photo ? `<div class="card-photo"><img src="${review.photo}" alt="ritual"></div>` : ''}
+      <div class="card-stars">${filled}</div>
+      <p class="card-text">"${review.reflection}"</p>
+      <span class="card-author">${review.name}</span>
+    `;
+    return card;
+  }
 
-        function updateStars(val, className) {
-            stars.forEach(s => {
-                s.classList.remove('active', 'hover');
-                if (s.getAttribute('data-value') <= val) {
-                    s.classList.add(className);
-                }
-            });
-        }
+  function updateCounts(count) {
+    document.getElementById('totalCount').textContent = count;
+    document.getElementById('formCount').textContent  = count;
+  }
 
-        // --- Form Handling ---
-        const form = document.getElementById('review-form');
-        const toast = document.getElementById('toast');
+  /* ── Toast ───────────────────────────────── */
+  function showToast(msg, isError = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.toggle('error', isError);
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
 
-        function showToast(msg, isError = false) {
-            toast.innerText = msg;
-            toast.classList.toggle('error', isError);
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 4000);
-        }
+  /* ── Submit ──────────────────────────────── */
+  async function submitReview() {
+    const nameInput = document.getElementById('nameInput');
+    const emailInput = document.getElementById('emailInput');
+    const reflectionInput = document.getElementById('reflectionInput');
+    const photoPreview = document.getElementById('photoPreview');
+    const photoInput = document.getElementById('photoInput');
+    const submitBtn = document.getElementById('submitBtn');
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+    const name  = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const text  = reflectionInput.value.trim();
 
-            if (selectedRating === 0) {
-                showToast('Please select a rating to cast your reflection.', true);
-                return;
-            }
+    if (!name || !text || !email) { 
+      showToast('Please fill in your name, email and reflection.', true); 
+      return; 
+    }
+    
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showToast('Please enter a valid email address.', true); 
+      return;
+    }
 
-            const btn = document.getElementById('submit-btn');
-            btn.disabled = true;
-            btn.innerText = 'Casting...';
+    const photo = photoPreview.style.display === 'block' ? photoPreview.src : null;
 
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                rating: parseInt(selectedRating),
-                reflection: document.getElementById('reflection').value
-            };
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
 
-            try {
-                const res = await fetch('/api/reviews', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
+    try {
+      const res = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          reflection: text,
+          rating,
+          photo
+        })
+      });
 
-                if (!res.ok) throw new Error('Failed to cast reflection');
+      if (!res.ok) throw new Error('Submission failed');
 
-                const newReview = await res.json();
-                
-                // Prepend new card
-                const newCard = createReviewCard(newReview, true);
-                container.prepend(newCard);
-                
-                // Update count
-                liveCount.innerText = parseInt(liveCount.innerText) + 1;
-                
-                // Reset form
-                form.reset();
-                showToast('Reflection cast into the gallery.');
-                
-                // Scroll to new review
-                newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const newReview = await res.json();
 
-            } catch (err) {
-                showToast('The winds were unfavourable. Try again.', true);
-            } finally {
-                btn.disabled = false;
-                btn.innerText = 'Cast Reflection';
-            }
-        });
+      // Update UI
+      const grid = document.getElementById('reviewGrid');
+      const card = createReviewCard(newReview, 0);
+      grid.prepend(card);
 
-        // Initialize
-        fetchReviews();
-    </script>
+      const newCount = parseInt(document.getElementById('totalCount').textContent) + 1;
+      updateCounts(newCount);
+
+      /* reset */
+      nameInput.value = '';
+      emailInput.value = '';
+      reflectionInput.value = '';
+      photoInput.value = '';
+      photoPreview.style.display = 'none';
+      rating = 5; 
+      paintStars(5);
+
+      showToast('Reflection submitted — thank you ✦');
+      document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+
+    } catch (err) {
+      console.error('Submit error:', err);
+      showToast('Something went wrong. Please try again.', true);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Reflection';
+    }
+  }
+
+  // Initial load
+  fetchReviews();
+</script>
 </body>
 </html>
