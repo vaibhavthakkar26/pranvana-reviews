@@ -1,5 +1,5 @@
-const { Pool } = require('pg');
-const { NextResponse } = require('next/server');
+import { Pool } from 'pg';
+import { NextResponse } from 'next/server';
 
 const pool = new Pool({
   connectionString: process.env.POSTGRES_URL,
