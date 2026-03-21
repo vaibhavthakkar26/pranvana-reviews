@@ -2,7 +2,6 @@
   "name": "pranvana-reviews",
   "version": "1.0.0",
   "description": "Pranvana Artisan Incense Reviews & Gallery",
-  "main": "api/reviews.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
